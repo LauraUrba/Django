@@ -88,6 +88,8 @@
                 <td>{{ livro.editora }}</td>
                 <td>
                   <!-- aqui ações de edição e exclusão -->
+                   <a href="{% url 'edita_livro' livro.id %}" class="btn btn-sm btn-primary">Editar</a>
+                   <a href="{% url 'exclui_livro' livro.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Deseja excluir esse livro?')">Excluir</a>
                 </td>
               </tr>
             {% empty %}

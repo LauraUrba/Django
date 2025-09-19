@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Livro
 # Create your views here.
@@ -51,3 +51,24 @@ def cadastro_livro(request):
     # all é uma função que recupera todos os registros da tabela livro - é o select do BD
     livros = Livro.objects.all()  # Recupera todos os livros do banco de dados
     return render(request, 'livros.html', {'livros': livros})
+
+def exclui_livro(request, livro_id):
+    #get_objects_or_404 tenta recuperar o objeto com o ID fornecido buscando no banco de dados e, 
+    # se não encontrar, retorna um erro 404. Se encontrar o objeto, ele o retorna para 
+    # que possa ser usado na função.
+    livro = get_object_or_404(Livro, id=livro_id)
+    livro.delete()
+    return redirect('cadastro_livro')
+
+def edita_livro(request, livro_id):
+    livro = get_object_or_404(Livro, id=livro_id)
+    livros = Livro.objects.all()  # Recupera todos os livros do banco de dados
+    
+    if request.method == 'POST':
+        livro.titulo = request.POST['titulo']
+        livro.autor = request.POST['autor']
+        livro.ano_publicacao = request.POST['ano_publicacao']
+        livro.editora = request.POST['editora']
+        livro.save()
+        return redirect('cadastro_livro')
+    return render(request, 'livros.html', {'livros': livros, 'livro_editar': livro})
