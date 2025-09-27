@@ -8,6 +8,8 @@ def cadastra_usuario(request):
         return render(request, 'cadastro.html')
     elif request.method == "POST":
         nome_usuario = request.POST['nome_usuario']
+        nome = request.POST['nome']
+        sobrenome = request.POST['sobrenome']
         email = request.POST['email']
         senha = request.POST['senha']
         # Aqui você pode adicionar a lógica para salvar o usuário no banco de dados
@@ -16,7 +18,7 @@ def cadastra_usuario(request):
         if usuario:
             return HttpResponse('Usuário já existe!')
         else:
-            usuario = User.objects.create_user(username=nome_usuario, email=email, password=senha)
+            usuario = User.objects.create_user(username=nome_usuario, nome=nome, sobrenome=sobrenome, email=email, password=senha)
             usuario.save()
             return HttpResponse('Usuário cadastrado com sucesso!')
 
