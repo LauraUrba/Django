@@ -20,6 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', include('sgb_livros.urls')),
+    #path('index/', include('sgb_livros.urls')),
     path('livros/', include('sgb_livros.urls')),
+    path('auth/', include('sgb_usuarios.urls')),  # Adiciona as URLs do aplicativo sgb_usuarios
 ]
