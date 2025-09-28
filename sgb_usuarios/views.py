@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-# Create your views here.
 def cadastra_usuario(request):
     if request.method == "GET":
         return render(request, 'cadastro.html')
@@ -12,13 +11,20 @@ def cadastra_usuario(request):
         sobrenome = request.POST['sobrenome']
         email = request.POST['email']
         senha = request.POST['senha']
-        # Aqui você pode adicionar a lógica para salvar o usuário no banco de dados
-        usuario = User.objects.filter(username=nome_usuario).first() #é um usurio booleano
+
+        # Verifica se o usuário já existe
+        usuario_existente = User.objects.filter(username=nome_usuario).first()
         
-        if usuario:
+        if usuario_existente:
             return HttpResponse('Usuário já existe!')
         else:
-            usuario = User.objects.create_user(username=nome_usuario, nome=nome, sobrenome=sobrenome, email=email, password=senha)
+            usuario = User.objects.create_user(
+                username=nome_usuario,
+                first_name=nome,
+                last_name=sobrenome,
+                email=email,
+                password=senha
+            )
             usuario.save()
             return HttpResponse('Usuário cadastrado com sucesso!')
 
